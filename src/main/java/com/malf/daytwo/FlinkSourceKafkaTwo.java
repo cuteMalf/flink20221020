@@ -10,6 +10,7 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
  * kafka数据源的第二种实现方式，来自官方文档的实现，基于版本flink1.13.6
  * address：https://nightlies.apache.org/flink/flink-docs-release-1.13/docs/connectors/datastream/kafka/
  * cmd:kafka-console-producer.sh --broker-list hadoop162:9092 --topic sensor
+ * flink 1.12.x 之前只能用通用的方式
  */
 public class FlinkSourceKafkaTwo {
     public static void main(String[] args) throws Exception {

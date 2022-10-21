@@ -11,6 +11,7 @@ import java.util.Properties;
  * 从kafka读取数据
  * 通用方式
  * cmd:kafka-console-producer.sh --broker-list hadoop162:9092 --topic sensor
+ * flink version:1.12.x
  */
 public class FlinkSourceKafkaOne {
     public static void main(String[] args) throws Exception {
@@ -21,7 +22,7 @@ public class FlinkSourceKafkaOne {
         properties.setProperty("auto.offset.reset","latest");
 
         environment
-                .addSource(new FlinkKafkaConsumer<>("sensor",new SimpleStringSchema(),properties))
+                .addSource(new FlinkKafkaConsumer<>("sensor", new SimpleStringSchema(), properties))
                 .print("*");
         environment.execute();
     }
