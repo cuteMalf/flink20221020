@@ -1,4 +1,4 @@
-package com.malf.daysix;
+package com.malf.dayfive;
 
 import com.malf.bean.UserBehavior;
 import org.apache.flink.api.common.RuntimeExecutionMode;
@@ -20,14 +20,17 @@ public class PageView {
         environment.setRuntimeMode(RuntimeExecutionMode.BATCH);
         environment
                 .readTextFile("input/UserBehavior.csv")
-                .map((MapFunction<String, Tuple2<String,Long>>) value -> {
+                .map((MapFunction<String, UserBehavior>) value -> {
                     String[] strings = value.split(",");
-                    return Tuple2.of(strings[0],1L);
-                 })
+                    return new UserBehavior(Long.parseLong(strings[0]),Long.parseLong(strings[1]),Integer.parseInt(strings[2]),strings[3],Long.parseLong(strings[4]));
+                })
+                .filter((FilterFunction<UserBehavior>) value -> value.getBehavior().equals("pv"))
+                .map((MapFunction<UserBehavior, Tuple2<String, Long>>) value -> Tuple2.of("pv",1L))
                 .returns(Types.TUPLE(Types.STRING,Types.LONG))
                 .keyBy((KeySelector<Tuple2<String, Long>, String>) value -> value.f0)
                 .sum(1)
                 .print();
+
 
         environment.execute();
 
